@@ -1,67 +1,15 @@
 
-import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Text,
-  Image,
-  Input,
-  FormControl,
-  FormLabel,
-  VStack,
-  useToast
-} from '@chakra-ui/react';
-
-// Demo toy data
-const TOYS = [
-  { name: 'Teddy Bear', price: 19.99, image: 'https://placebear.com/200/200' },
-  { name: 'Toy Car', price: 9.99, image: 'https://placehold.co/200x200/car' },
-  { name: 'Building Blocks', price: 14.99, image: 'https://placehold.co/200x200/blocks' },
-  { name: 'Doll', price: 12.99, image: 'https://placehold.co/200x200/doll' },
-  { name: 'Puzzle', price: 7.99, image: 'https://placehold.co/200x200/puzzle' },
-];
-
-const ADMIN = { username: 'admin', password: 'toyland123' };
-
-function getRandomToys() {
-  // Shuffle and pick 3 toys
-  return TOYS.sort(() => 0.5 - Math.random()).slice(0, 3);
-}
+import React from 'react';
+import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import Product from './pages/Product';
+import Cart from './pages/Cart';
+import Admin from './pages/Admin';
 
 function App() {
-  const [toys, setToys] = useState(getRandomToys());
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [login, setLogin] = useState({ username: '', password: '' });
-  const [newToy, setNewToy] = useState({ name: '', price: '', image: '' });
-  const toast = useToast();
-
-  const handleLogin = () => {
-    if (
-      login.username === ADMIN.username &&
-      login.password === ADMIN.password
-    ) {
-      setIsAdmin(true);
-      toast({ title: 'Logged in as admin', status: 'success', duration: 2000 });
-    } else {
-      toast({ title: 'Invalid credentials', status: 'error', duration: 2000 });
-    }
-  };
-
-  const handleAddToy = () => {
-    if (!newToy.name || !newToy.price || !newToy.image) {
-      toast({ title: 'All fields required', status: 'warning', duration: 2000 });
-      return;
-    }
-    setToys([...toys, { ...newToy, price: parseFloat(newToy.price) }]);
-    setNewToy({ name: '', price: '', image: '' });
-    toast({ title: 'Toy added!', status: 'success', duration: 2000 });
-  };
-
   return (
+<<<<<<< HEAD
     <Container maxW="container.lg" py={8}>
       <Heading mb={6} textAlign="center">Contoso Toyland</Heading>
       <SimpleGrid columns={[1, 2, 3]} spacing={6} mb={8}>
@@ -146,6 +94,31 @@ function App() {
         </Box>
       )}
     </Container>
+=======
+    <>
+      <Navbar bg="primary" variant="dark" expand="lg">
+        <Container>
+          <Navbar.Brand as={Link} to="/">Contoso Toyland</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link as={Link} to="/">Home</Nav.Link>
+              <Nav.Link as={Link} to="/cart">Cart</Nav.Link>
+              <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <Container className="my-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<Product />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </Container>
+    </>
+>>>>>>> 4b6a66d (Update toy images and migrate to React Bootstrap, Zustand, and new architecture)
   );
 }
 

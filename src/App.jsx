@@ -67,7 +67,17 @@ function App() {
       <SimpleGrid columns={[1, 2, 3]} spacing={6} mb={8}>
         {toys.map((toy, idx) => (
           <Box key={idx} borderWidth="1px" borderRadius="lg" p={4} boxShadow="md" bg="white">
-            <Image src={toy.image} alt={toy.name} boxSize="200px" objectFit="cover" mx="auto" mb={4} />
+            <Image 
+              src={toy.image} 
+              alt={toy.name} 
+              boxSize="200px" 
+              objectFit="cover" 
+              mx="auto" 
+              mb={4}
+              fallback={<Box boxSize="200px" display="flex" alignItems="center" justifyContent="center" bg="gray.100">
+                <Text>No Image Available</Text>
+              </Box>}
+            />
             <Heading as="h3" size="md" mb={2}>{toy.name}</Heading>
             <Text fontWeight="bold">${toy.price.toFixed(2)}</Text>
           </Box>

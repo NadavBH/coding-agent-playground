@@ -10,6 +10,7 @@ const TOYS = [
   { id: 4, name: 'Doll', price: 12.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Doll
   { id: 5, name: 'Puzzle', price: 7.99, image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80' }, // Puzzle
   { id: 6, name: 'Toy Power Sword', price: 15.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Toy Power Sword (placeholder image)
+  { id: 7, name: 'Action Figure', price: 13.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Action Figure
 ];
 
 export default function Home() {

@@ -3,6 +3,13 @@ import { useForm } from 'react-hook-form';
 import { Card, Button, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
+/**
+ * Admin component that provides a form to add new toys to the inventory.
+ * Allows administrators to input toy name, price, and image URL.
+ * Shows a success toast notification when a toy is added (demo functionality).
+ * 
+ * @returns {JSX.Element} A form card for adding new toys to the inventory
+ */
 export default function Admin() {
   const { register, handleSubmit, reset } = useForm();
 

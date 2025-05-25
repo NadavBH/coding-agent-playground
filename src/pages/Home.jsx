@@ -21,16 +21,21 @@ const TOYS = [
  */
 export default function Home() {
   return (
+    // TODO: Replace div with semantic HTML element like <main> or <section> for better document structure
     <div>
       <h2 className="mb-4">Featured Toys</h2>
+      {/* TODO: Consider adding an ARIA landmark role to this Row for better screen reader navigation */}
       <Row xs={1} md={3} className="g-4">
         {TOYS.map(toy => (
           <Col key={toy.id}>
+            {/* TODO: Consider adding role="article" or similar ARIA role to Card for better semantics */}
             <Card>
               <Card.Img variant="top" src={toy.image} alt={toy.name} />
               <Card.Body>
                 <Card.Title>{toy.name}</Card.Title>
+                {/* TODO: Add appropriate ARIA attributes to indicate this is a price */}
                 <Card.Text>${toy.price.toFixed(2)}</Card.Text>
+                {/* TODO: Add more descriptive aria-label, e.g., "View details for [toy name]" */}
                 <Button as={Link} to={`/product/${toy.id}`} variant="primary">View</Button>
               </Card.Body>
             </Card>

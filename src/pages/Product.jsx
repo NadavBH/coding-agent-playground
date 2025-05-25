@@ -14,6 +14,13 @@ const TOYS = [
   { id: 7, name: 'Action Figure', price: 13.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Action Figure
 ];
 
+/**
+ * Product component that displays detailed information about a specific toy.
+ * Uses the URL parameter to find the corresponding toy data.
+ * Includes functionality to add the item to the shopping cart.
+ * 
+ * @returns {JSX.Element} A product detail card with image, name, price, and add to cart button
+ */
 export default function Product() {
   const { id } = useParams();
   const toy = TOYS.find(t => t.id === Number(id));
@@ -21,13 +28,21 @@ export default function Product() {
 
   if (!toy) return <div>Product not found.</div>;
 
+  /**
+   * Handles adding the current toy to the cart and shows a success notification.
+   */
+  const handleAddToCart = () => {
+    addToCart(toy);
+    toast.success('Added to cart!');
+  };
+
   return (
     <Card className="mx-auto" style={{ maxWidth: 400 }}>
       <Card.Img variant="top" src={toy.image} alt={toy.name} />
       <Card.Body>
         <Card.Title>{toy.name}</Card.Title>
         <Card.Text>${toy.price.toFixed(2)}</Card.Text>
-        <Button onClick={() => { addToCart(toy); toast.success('Added to cart!'); }} variant="success">Add to Cart</Button>
+        <Button onClick={handleAddToCart} variant="success">Add to Cart</Button>
       </Card.Body>
     </Card>
   );

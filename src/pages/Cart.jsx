@@ -2,6 +2,12 @@ import React from 'react';
 import { useStore } from '../store';
 import { ListGroup, Button } from 'react-bootstrap';
 
+/**
+ * Cart component that displays the user's shopping cart contents.
+ * Shows items added to the cart with ability to remove items and displays the total price.
+ * 
+ * @returns {JSX.Element} A shopping cart interface with item list, total price, and checkout button
+ */
 export default function Cart() {
   const cart = useStore(s => s.cart);
   const removeFromCart = useStore(s => s.removeFromCart);

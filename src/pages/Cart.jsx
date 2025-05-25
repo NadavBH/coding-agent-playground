@@ -10,6 +10,9 @@ export default function Cart() {
     removeFromCart(itemId);
   };
 
+  // Calculate total price of all items in the cart
+  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+
   return (
     <div>
       <h2 className="mb-4">Your Cart</h2>
@@ -24,6 +27,11 @@ export default function Cart() {
             </ListGroup.Item>
           ))}
         </ListGroup>
+      )}
+      {cart.length > 0 && (
+        <div className="mt-3 d-flex justify-content-end fw-bold">
+          Total: ${totalPrice.toFixed(2)}
+        </div>
       )}
       <div className="mt-3">
         <Button variant="primary">Proceed to Payment</Button>

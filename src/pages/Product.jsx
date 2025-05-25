@@ -28,13 +28,21 @@ export default function Product() {
 
   if (!toy) return <div>Product not found.</div>;
 
+  /**
+   * Handles adding the current toy to the cart and shows a success notification.
+   */
+  const handleAddToCart = () => {
+    addToCart(toy);
+    toast.success('Added to cart!');
+  };
+
   return (
     <Card className="mx-auto" style={{ maxWidth: 400 }}>
       <Card.Img variant="top" src={toy.image} alt={toy.name} />
       <Card.Body>
         <Card.Title>{toy.name}</Card.Title>
         <Card.Text>${toy.price.toFixed(2)}</Card.Text>
-        <Button onClick={() => { addToCart(toy); toast.success('Added to cart!'); }} variant="success">Add to Cart</Button>
+        <Button onClick={handleAddToCart} variant="success">Add to Cart</Button>
       </Card.Body>
     </Card>
   );

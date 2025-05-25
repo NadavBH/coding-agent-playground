@@ -13,6 +13,14 @@ import { toast } from 'react-toastify';
 export default function Admin() {
   const { register, handleSubmit, reset } = useForm();
 
+  /**
+   * Handles the submission of the add toy form.
+   * 
+   * @param {Object} data - The form data containing toy information
+   * @param {string} data.name - The name of the toy
+   * @param {number} data.price - The price of the toy
+   * @param {string} data.image - The URL to the toy's image
+   */
   const onSubmit = data => {
     // Here you would add the toy to your backend or state
     toast.success('Toy added (demo only)!');

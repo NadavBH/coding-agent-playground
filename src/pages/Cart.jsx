@@ -25,6 +25,9 @@ export default function Cart() {
           ))}
         </ListGroup>
       )}
+      <div className="mt-3">
+        <Button variant="primary">Proceed to Payment</Button>
+      </div>
     </div>
   );
 }

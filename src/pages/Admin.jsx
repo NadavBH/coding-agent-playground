@@ -3,6 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Card, Button, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
+/**
+ * Admin component that provides an interface for adding new toy products
+ * @returns {JSX.Element} A form with fields for toy name, price, and image URL
+ */
 export default function Admin() {
   const { register, handleSubmit, reset } = useForm();
 

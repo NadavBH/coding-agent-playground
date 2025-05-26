@@ -13,6 +13,10 @@ const TOYS = [
   { id: 7, name: 'Action Figure', price: 13.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Action Figure
 ];
 
+/**
+ * Home component that displays a grid of featured toy products
+ * @returns {JSX.Element} A grid layout of toy cards with images, names, prices, and view buttons
+ */
 export default function Home() {
   return (
     <div>

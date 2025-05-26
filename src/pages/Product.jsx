@@ -14,6 +14,10 @@ const TOYS = [
   { id: 7, name: 'Action Figure', price: 13.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Action Figure
 ];
 
+/**
+ * Product component that displays detailed information about a specific toy
+ * @returns {JSX.Element} A card with the toy's image, name, price, and an "Add to Cart" button
+ */
 export default function Product() {
   const { id } = useParams();
   const toy = TOYS.find(t => t.id === Number(id));

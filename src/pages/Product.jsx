@@ -14,13 +14,6 @@ const TOYS = [
   { id: 7, name: 'Action Figure', price: 13.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Action Figure
 ];
 
-/**
- * Product component that displays detailed information about a specific toy.
- * Uses the URL parameter to find the corresponding toy data.
- * Includes functionality to add the item to the shopping cart.
- * 
- * @returns {JSX.Element} A product detail card with image, name, price, and add to cart button
- */
 export default function Product() {
   const { id } = useParams();
   const toy = TOYS.find(t => t.id === Number(id));
@@ -29,9 +22,6 @@ export default function Product() {
   // TODO: Add appropriate ARIA role and live region for error messages
   if (!toy) return <div>Product not found.</div>;
 
-  /**
-   * Handles adding the current toy to the cart and shows a success notification.
-   */
   const handleAddToCart = () => {
     addToCart(toy);
     toast.success('Added to cart!');

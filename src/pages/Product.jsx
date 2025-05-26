@@ -19,27 +19,20 @@ export default function Product() {
   const toy = TOYS.find(t => t.id === Number(id));
   const addToCart = useStore(s => s.addToCart);
 
-  // TODO: Add appropriate ARIA role and live region for error messages
   if (!toy) return <div>Product not found.</div>;
 
   const handleAddToCart = () => {
     addToCart(toy);
     toast.success('Added to cart!');
-    // TODO: Add programmatic focus management after adding to cart
   };
 
   return (
-    // TODO: Consider adding role="main" or using a semantic HTML element like <main>
     <Card className="mx-auto" style={{ maxWidth: 400 }}>
       <Card.Img variant="top" src={toy.image} alt={toy.name} />
       <Card.Body>
-        {/* TODO: Consider adding a higher-level semantic heading element (<h1>) for the main product title */}
         <Card.Title>{toy.name}</Card.Title>
-        {/* TODO: Add appropriate ARIA attributes to indicate this is a price */}
         <Card.Text>${toy.price.toFixed(2)}</Card.Text>
-        {/* TODO: Add aria-label with product name, e.g., "Add [toy name] to cart" */}
         <Button onClick={handleAddToCart} variant="success">Add to Cart</Button>
-        {/* TODO: Add an accessible status message area that announces when item is added to cart */}
       </Card.Body>
     </Card>
   );

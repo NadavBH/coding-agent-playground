@@ -13,12 +13,6 @@ const TOYS = [
   { id: 7, name: 'Action Figure', price: 13.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Action Figure
 ];
 
-/**
- * Home component that displays the featured toys on the landing page.
- * Shows a grid of toy cards with images, names, prices, and view buttons.
- * 
- * @returns {JSX.Element} A responsive grid of toy cards with product information
- */
 export default function Home() {
   return (
     // TODO: Replace div with semantic HTML element like <main> or <section> for better document structure

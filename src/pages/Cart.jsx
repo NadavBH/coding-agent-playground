@@ -10,6 +10,10 @@ export default function Cart() {
   const cart = useStore(s => s.cart);
   const removeFromCart = useStore(s => s.removeFromCart);
 
+  /**
+   * Removes an item from the shopping cart
+   * @param {number} itemId - The ID of the item to be removed from the cart
+   */
   const handleRemoveItem = (itemId) => {
     removeFromCart(itemId);
   };

@@ -10,7 +10,7 @@ import Admin from './pages/Admin';
 /**
  * Main application component for Contoso Toyland.
  * Renders the navigation bar and sets up routing for the toy store application.
- * Provides navigation links to Home, Cart, and Admin pages.
+ * Provides navigation links to Home, Cart, and Admin pages, with routes for Home, Product details, Cart, and Admin.
  * 
  * @returns {JSX.Element} The main app layout with navigation and routing
  */

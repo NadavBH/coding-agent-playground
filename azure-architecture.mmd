@@ -1,0 +1,119 @@
+graph TB
+    subgraph Users["👥 End Users - EU/Global"]
+        direction LR
+        EU["🌍 European Users<br/>(Primary Audience)"]
+    end
+
+    subgraph CDN["📡 Content Delivery Network"]
+        direction LR
+        ACDN["Azure CDN<br/>Edge Locations<br/>Static Content Cache"]
+    end
+
+    subgraph Security["🛡️ Gateway & Security Layer"]
+        direction LR
+        AppGW["Application Gateway<br/>Standard v2<br/>━━━━━━━━━━━━━━<br/>✓ SSL/TLS Termination<br/>✓ Web Application Firewall<br/>✓ Rate Limiting<br/>✓ Path-based Routing"]
+        TM["Traffic Manager<br/>━━━━━━━━━━━━━━<br/>✓ Geographic Routing<br/>✓ Failover<br/>✓ Load Balancing"]
+    end
+
+    subgraph Network["🔗 Virtual Network"]
+        direction TB
+        VNet["Virtual Network<br/>10.0.0.0/16"]
+        AppSubnet["App Subnet<br/>10.0.1.0/24<br/>────────────<br/>App Service<br/>NSG Rules"]
+        DBSubnet["DB Subnet<br/>10.0.2.0/24<br/>────────────<br/>SQL Database<br/>Private Access"]
+    end
+
+    subgraph Compute["⚙️ Application Layer - COMPUTE"]
+        direction TB
+        AppSvc1["App Service - Sweden Central<br/>Tier: B2/B3 (Auto-Scale)<br/>Runtime: Node.js<br/>━━━━━━━━━━━━━━<br/>✓ Contoso Toyland API<br/>✓ Product Management<br/>✓ Shopping Cart Backend<br/>✓ Admin Functions"]
+        AppSvc2["App Service - Failover<br/>North Europe<br/>(Future Deployment)<br/>━━━━━━━━━━━━━━<br/>Secondary Region<br/>Hot Standby"]
+    end
+
+    subgraph Data["🗄️ Data Layer - STORAGE & DATABASE"]
+        direction TB
+        SQL["Azure SQL Database<br/>Server: contoso-toyland-db<br/>Tier: Standard S1<br/>━━━━━━━━━━━━━━<br/>✓ Toys Table<br/>✓ Users Table<br/>✓ Orders Table (Future)<br/>✓ Encryption: TDE<br/>✓ Backups: Daily<br/>✓ Read Replicas: Enabled"]
+        Storage["Azure Storage Account<br/>Standard LRS<br/>━━━━━━━━━━━━━━<br/>✓ Backup Blobs<br/>✓ Audit Logs<br/>✓ File Uploads<br/>✓ Configuration"]
+    end
+
+    subgraph Secrets["🔐 Security & Secrets Management"]
+        direction TB
+        KV["Azure Key Vault<br/>Standard Tier<br/>━━━━━━━━━━━━━━<br/>Stored Secrets:<br/>✓ DB Connection String<br/>✓ API Keys<br/>✓ Admin Credentials<br/>✓ JWT Signing Keys<br/>✓ SSL Certificates<br/><br/>Features:<br/>✓ RBAC Access Control<br/>✓ Audit Logging<br/>✓ Soft-Delete (90 days)<br/>✓ Purge Protection"]
+    end
+
+    subgraph Backup["💾 Disaster Recovery & Backup"]
+        direction TB
+        AzBackup["Azure Backup Vault<br/>━━━━━━━━━━━━━━<br/>Database Backups:<br/>✓ Frequency: Daily<br/>✓ Retention: 35 days<br/>✓ Geo-Redundant: YES<br/>✓ Secondary: Netherlands<br/><br/>RTO: 4 hours<br/>RPO: 1 hour<br/><br/>Point-in-Time Restore:<br/>Any moment last 35 days"]
+    end
+
+    subgraph Monitoring["📊 Monitoring & Observability"]
+        direction TB
+        AppIns["Application Insights<br/>━━━━━━━━━━━━━━<br/>Real-Time Monitoring:<br/>✓ Request Tracking<br/>✓ Performance Metrics<br/>✓ Exception Logging<br/>✓ Custom Events<br/>✓ User Analytics<br/>✓ Smart Alerts<br/><br/>Tracks:<br/>✓ API Response Times<br/>✓ Error Rates<br/>✓ Cart Transactions<br/>✓ Admin Activities"]
+        LogAnalytics["Log Analytics Workspace<br/>━━━━━━━━━━━━━━<br/>Centralized Logging:<br/>✓ App Logs<br/>✓ SQL Audit Logs<br/>✓ Key Vault Access<br/>✓ NSG Flow Logs<br/>✓ Compliance Reports<br/><br/>5GB/month: FREE"]
+    end
+
+    subgraph Alerts["🚨 Alerting & Notifications"]
+        direction TB
+        AlertRules["Alert Rules<br/>━━━━━━━━━━━━━━<br/>Triggers:<br/>✓ Failed Requests > 5%<br/>✓ Response Time > 2s<br/>✓ App CPU > 80%<br/>✓ Database DTU > 85%<br/>✓ Storage > 80%<br/>✓ Backup Failures<br/><br/>Actions:<br/>✓ Email Notifications<br/>✓ SMS Alerts<br/>✓ Auto-Remediation"]
+    end
+
+    %% Connections from Users
+    EU -->|HTTPS| ACDN
+    EU -->|Direct| AppGW
+    
+    %% CDN to Gateway
+    ACDN -->|Static Content| AppGW
+    
+    %% Gateway to Traffic Manager
+    AppGW -->|Route| TM
+    
+    %% Traffic Manager to App Services
+    TM -->|Primary| AppSvc1
+    TM -->|Failover| AppSvc2
+    
+    %% App Services to VNet
+    AppSvc1 -->|Connected| VNet
+    AppSvc2 -->|Connected| VNet
+    VNet --> AppSubnet
+    VNet --> DBSubnet
+    
+    %% App Services to Data Layer
+    AppSvc1 -->|SQL Queries| SQL
+    AppSvc1 -->|Store Logs| Storage
+    
+    %% Data Layer connections
+    SQL -->|Backup| AzBackup
+    Storage -->|Stores| AzBackup
+    
+    %% Security Layer
+    AppSvc1 -.->|Retrieve Secrets| KV
+    KV -->|Audit Logs| LogAnalytics
+    
+    %% Monitoring connections
+    AppSvc1 -->|Send Metrics| AppIns
+    SQL -->|Performance Data| AppIns
+    AppGW -->|Traffic Stats| AppIns
+    
+    AppIns -->|Logs & Events| LogAnalytics
+    LogAnalytics -->|Trigger| AlertRules
+    
+    %% Styling
+    classDef userStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
+    classDef cdnStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    classDef securityStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    classDef networkStyle fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000
+    classDef computeStyle fill:#e0f2f1,stroke:#00796b,stroke-width:2px,color:#000
+    classDef dataStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+    classDef secretsStyle fill:#ede7f6,stroke:#512da8,stroke-width:2px,color:#000
+    classDef backupStyle fill:#e0f2f1,stroke:#00838f,stroke-width:2px,color:#000
+    classDef monitorStyle fill:#f1f8e9,stroke:#558b2f,stroke-width:2px,color:#000
+    classDef alertStyle fill:#fff8e1,stroke:#f57f17,stroke-width:2px,color:#000
+
+    class Users userStyle
+    class CDN cdnStyle
+    class Security securityStyle
+    class Network networkStyle
+    class Compute computeStyle
+    class Data dataStyle
+    class Secrets secretsStyle
+    class Backup backupStyle
+    class Monitoring monitorStyle
+    class Alerts alertStyle

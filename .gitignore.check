@@ -1,0 +1,21 @@
+cd /mnt/c/Users/nadavbh/.vscode/coding-agent-playground && rm -f deployment.zip && ls -la
+ls -la c:/Users/nadavbh/.vscode/coding-agent-playground/ | grep -E "server|deployment"
+cd /mnt/c/Users/nadavbh/.vscode/coding-agent-playground && find . -maxdepth 1 -name "server.js" -o -name ".deployment" -o -name "web.config" 2>/dev/null
+cd /mnt/c/Users/nadavbh/.vscode/coding-agent-playground && npm run build 2>&1 | tail -30
+cd /mnt/c/Users/nadavbh/.vscode/coding-agent-playground && npm run build
+cd /mnt/c/Users/nadavbh/.vscode/coding-agent-playground && az webapp up --name contoso-toyland-web --resource-group contoso-toyland-prod-rg 2>&1 | tail -50
+which az || echo "az CLI not found in WSL"
+cd /mnt/c/Users/nadavbh/.vscode/coding-agent-playground && zip -r deployment.zip . -x "node_modules/*" ".git/*" "dist/*" ".github/*" ".vscode/*" ".azure/*" && ls -lh deployment.zip
+powershell -NoProfile -Command "
+cd 'c:\Users\nadavbh\.vscode\coding-agent-playground'
+az webapp deployment source config-zip --resource-group 'contoso-toyland-prod-rg' --name 'contoso-toyland-web' --src deployment.zip
+"
+powershell -NoProfile -Command "az webapp list --resource-group 'contoso-toyland-prod-rg' --query '[].{name:name, url:defaultHostName}' -o table"
+powershell -NoProfile -Command "
+az webapp deployment slot list --resource-group 'contoso-toyland-prod-rg' --name 'contoso-toyland-web' -o table
+"
+powershell -NoProfile -Command "
+az webapp show --resource-group 'contoso-toyland-prod-rg' --name 'contoso-toyland-web' --query '{state:state, defaultHostName:defaultHostName}' -o table
+"
+powershell -NoProfile -Command "az group delete --name 'contoso-toyland-prod-rg' --yes"
+powershell -NoProfile -Command "cd 'c:\Users\nadavbh\.vscode\coding-agent-playground'; .\deploy.ps1"

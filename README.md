@@ -110,7 +110,7 @@ server.js                # Node.js HTTP server for production
 - Professional checkout button
 
 ### Admin Panel
-- Secure login page (demo credentials below)
+- Secure login page
 - Admin dashboard with authentication indicator
 - Add New Toy form with validation
 - Error messages with red border highlights
@@ -118,11 +118,7 @@ server.js                # Node.js HTTP server for production
 
 ## 🔐 Admin Access
 
-The application includes a demo admin panel:
-
-**Demo Credentials:**
-- **Username**: `admin`
-- **Password**: `toyland123`
+The application includes an admin panel for inventory management. Contact the project maintainer for access credentials.
 
 **Admin Functions:**
 - Add new toys to inventory

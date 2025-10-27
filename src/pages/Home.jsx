@@ -1,40 +1,102 @@
 import React from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useStore } from '../store';
 
-// Demo toy data
-const TOYS = [
-  { id: 1, name: 'Teddy Bear', price: 19.99, image: 'https://www.publicdomainpictures.net/pictures/130000/velka/teddy-bear-14374486104Lp.jpg' }, // Teddy Bear
-  { id: 2, name: 'Toy Car', price: 9.99, image: 'https://images.pexels.com/photos/97353/pexels-photo-97353.jpeg?cs=srgb&dl=pexels-mikebirdy-97353.jpg&fm=jpg' }, // Toy Car
-  { id: 3, name: 'Building Blocks', price: 14.99, image: 'https://cdn.pixabay.com/photo/2022/01/02/12/34/bricks-6909999_1280.jpg' }, // Building Blocks
-  { id: 4, name: 'Doll', price: 12.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Doll
-  { id: 5, name: 'Puzzle', price: 7.99, image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80' }, // Puzzle
-  { id: 6, name: 'Toy Power Sword', price: 15.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Toy Power Sword (placeholder image)
-  { id: 7, name: 'Action Figure', price: 13.99, image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80' }, // Action Figure
-];
-
-/**
- * Home component that displays a grid of featured toy products
- * @returns {JSX.Element} A grid layout of toy cards with images, names, prices, and view buttons
- */
 export default function Home() {
+  const toys = useStore(s => s.toys);
+  const [hoveredCardId, setHoveredCardId] = React.useState(null);
+
+  const gridStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+    gap: '2rem',
+    marginTop: '2rem',
+  };
+
+  const cardStyle = {
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    cursor: 'pointer',
+    backgroundColor: 'white',
+  };
+
+  const getCardStyle = (id) => (hoveredCardId === id ? {
+    ...cardStyle,
+    transform: 'translateY(-4px)',
+    boxShadow: '0 12px 24px rgba(0,0,0,0.15)',
+    borderColor: '#2563eb',
+  } : cardStyle);
+
+  const imageStyle = {
+    width: '100%',
+    height: '200px',
+    objectFit: 'cover',
+  };
+
+  const bodyStyle = {
+    padding: '1.25rem',
+  };
+
+  const priceStyle = {
+    color: '#16a34a',
+    fontWeight: 'bold',
+    fontSize: '1.25rem',
+    margin: '0.75rem 0',
+  };
+
+  const buttonStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    backgroundColor: '#2563eb',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    fontWeight: '600',
+    textDecoration: 'none',
+    display: 'block',
+    textAlign: 'center',
+    transition: 'all 0.2s ease',
+    outline: 'none',
+  };
+
   return (
     <div>
-      <h2 className="mb-4">Featured Toys</h2>
-      <Row xs={1} md={3} className="g-4">
-        {TOYS.map(toy => (
-          <Col key={toy.id}>
-            <Card>
-              <Card.Img variant="top" src={toy.image} alt={toy.name} />
-              <Card.Body>
-                <Card.Title>{toy.name}</Card.Title>
-                <Card.Text>${toy.price.toFixed(2)}</Card.Text>
-                <Button as={Link} to={`/product/${toy.id}`} variant="primary">View</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <div style={{ marginBottom: '2rem' }}>
+        <h2 style={{ margin: '0 0 0.5rem 0', fontSize: '2rem', color: '#1f2937' }}>Featured Toys</h2>
+        <p style={{ color: '#6b7280', margin: 0 }}>Discover our amazing collection of toys</p>
+      </div>
+      <div style={gridStyle}>
+        {toys && toys.length > 0 ? (
+          toys.map(toy => (
+            <div
+              key={toy.id}
+              style={getCardStyle(toy.id)}
+              onMouseEnter={() => setHoveredCardId(toy.id)}
+              onMouseLeave={() => setHoveredCardId(null)}
+            >
+              <div style={{ position: 'relative', overflow: 'hidden' }}>
+                <img src={toy.image} alt={toy.name} style={imageStyle} />
+              </div>
+              <div style={bodyStyle}>
+                <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.125rem', color: '#1f2937' }}>{toy.name}</h3>
+                <p style={priceStyle}>${toy.price.toFixed(2)}</p>
+                <Link to={`/product/${toy.id}`} style={buttonStyle}>
+                  View Details
+                </Link>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div style={{ gridColumn: '1 / -1', padding: '2rem', textAlign: 'center', color: '#6b7280' }}>
+            <p>No toys available at the moment.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

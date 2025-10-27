@@ -12,7 +12,7 @@ Contoso Toyland is a modern React.js e-commerce website for a toy store. The sit
 - **State Management:** Zustand (centralized store for toys and shopping cart)
 - **Build Tool:** Vite (development server on port 5174)
 - **Styling:** Inline CSS only (React style objects, NO external frameworks like Chakra UI or Bootstrap)
-- **Deployment:** Azure App Service
+- **Deployment:** Azure App Service for real!
 - **Development Runtime:** Node.js 18+
 
 ## General Guidelines

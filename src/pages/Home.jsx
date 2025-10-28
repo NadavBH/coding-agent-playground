@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../store';
 
+/**
+ * Home page component displaying the Contoso Toyland product catalog
+ * Renders a responsive grid of toy products with interactive cards
+ * @returns {JSX.Element} Home page with product grid and logo
+ */
 export default function Home() {
   const toys = useStore(s => s.toys);
 

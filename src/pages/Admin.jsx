@@ -40,8 +40,14 @@ export default function Admin() {
   const [formErrors, setFormErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
 
-  const ADMIN_USERNAME = 'admin';
-  const ADMIN_PASSWORD = 'toyland123';
+  /**
+   * WARNING: This is a demo-only authentication implementation.
+   * In production, NEVER store credentials client-side.
+   * Authentication should be handled by a secure backend service.
+   * These demo credentials are intentionally weak for testing purposes only.
+   */
+  const DEMO_USERNAME = 'admin';
+  const DEMO_PASSWORD = 'toyland123';
 
   /**
    * Handles login form submission
@@ -52,7 +58,7 @@ export default function Admin() {
     const username = e.target.username.value;
     const password = e.target.password.value;
     
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    if (username === DEMO_USERNAME && password === DEMO_PASSWORD) {
       setIsAuthenticated(true);
       setLoginError('');
       e.target.reset();

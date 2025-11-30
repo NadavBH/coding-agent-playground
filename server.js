@@ -1,11 +1,12 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
+import url from 'url';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
-const distPath = path.join(__dirname, 'dist');
+const distPath = path.resolve(__dirname, 'dist');
 
 const mimeTypes = {
   '.html': 'text/html',
@@ -26,7 +27,19 @@ const mimeTypes = {
 };
 
 const server = http.createServer((req, res) => {
-  let filePath = path.join(distPath, req.url);
+  // Parse URL and decode the pathname to handle encoded characters
+  const parsedUrl = url.parse(req.url);
+  const decodedPath = decodeURIComponent(parsedUrl.pathname);
+  
+  // Normalize and resolve the file path to prevent path traversal attacks
+  let filePath = path.resolve(distPath, '.' + path.normalize(decodedPath));
+  
+  // Security check: ensure the resolved path is within distPath
+  if (!filePath.startsWith(distPath + path.sep) && filePath !== distPath) {
+    res.writeHead(403, { 'Content-Type': 'text/html' });
+    res.end('<h1>403 - Forbidden</h1>', 'utf-8');
+    return;
+  }
 
   // If trailing slash, serve index.html
   if (filePath.endsWith('/')) {
